@@ -21,7 +21,7 @@
     grub = {
       enable = true;
       efiSupport = true;
-      useOSProber = true;
+      useOSProber = true; # Windows
       device = "nodev";
       extraEntries = ''
         menuentry "Restart System" {
@@ -108,7 +108,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
