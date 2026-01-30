@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".",
+      		"name": "Configurations"
+		},
+
+		{
+			"path": "../nixos-secrets",
+      		"name": "Secrets"
+		}
+	]
+}
