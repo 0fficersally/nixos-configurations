@@ -1,32 +1,58 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+{ config, pkgs, nixos-secrets, ... }: {
+  imports = [
+    ./hardware-configuration.nix # Hardware Scan
+    ../../modules/nixos # NixOS Modules
+  ];
 
-{ config, pkgs, inputs, ... }:
+  system.stateVersion = "25.05"; # Configuration Defaults
+  nixpkgs.config.allowUnfree = true; # Proprietary Software
 
-{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
-    ];
+  modules = {
+    hardware.gpus.nvidia.enable = true;
+    applications.gui.steam.enable = true;
+  };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  hardware = {
+    graphics.enable = true; # Mesa 3D Library
 
-  # Bootloader.
-  boot.loader = {
-    efi = {
-      canTouchEfiVariables = true;
+    bluetooth = {
+      enable = true;
+
+      settings.General = {
+        Enable = "Media,Sink,Socket,Source"; # Profiles
+        Experimental = true; # Battery Service
+      };
+
+      powerOnBoot = true;
     };
+
+    opentabletdriver.enable = true; # Graphics Tablets
+
+    # Image Scanners
+    sane = {
+      enable = true;
+
+      extraBackends = with pkgs; [
+        hplipWithPlugin # HP
+      ];
+    };
+  };
+
+  time.timeZone = "Europe/Brussels";
+
+  boot.loader = {
+    efi.canTouchEfiVariables = true;
+
     grub = {
       enable = true;
       efiSupport = true;
-      useOSProber = true; # Windows
       device = "nodev";
+
       extraEntries = ''
         menuentry "Restart System" {
           reboot
         }
+
         menuentry "Shut Down System" {
           halt
         }
@@ -34,94 +60,210 @@
     };
   };
 
-  networking.hostName = "aurora"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Europe/Brussels";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_GB.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "nl_BE.UTF-8";
-    LC_IDENTIFICATION = "nl_BE.UTF-8";
-    LC_MEASUREMENT = "nl_BE.UTF-8";
-    LC_MONETARY = "nl_BE.UTF-8";
-    LC_NAME = "nl_BE.UTF-8";
-    LC_NUMERIC = "nl_BE.UTF-8";
-    LC_PAPER = "nl_BE.UTF-8";
-    LC_TELEPHONE = "nl_BE.UTF-8";
-    LC_TIME = "nl_BE.UTF-8";
+  security = {
+    rtkit.enable = true; # Real-Time Processing
+    polkit.enable = true; # Privilege Management
   };
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "be";
-    variant = "";
-  };
+  # Internationalisation
+  i18n = {
+    defaultLocale = "en_GB.UTF-8";
 
-  # Configure console keymap
-  console.keyMap = "be-latin1";
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.lysan = {
-    isNormalUser = true;
-    description = "Lysander Fontyn";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-  };
-
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = {
-      lysan = import ./home.nix;
+    extraLocaleSettings = {
+      LC_ADDRESS = "nl_BE.UTF-8";
+      LC_IDENTIFICATION = "nl_BE.UTF-8";
+      LC_MEASUREMENT = "nl_BE.UTF-8";
+      LC_MONETARY = "nl_BE.UTF-8";
+      LC_NAME = "nl_BE.UTF-8";
+      LC_NUMERIC = "nl_BE.UTF-8";
+      LC_PAPER = "nl_BE.UTF-8";
+      LC_TELEPHONE = "nl_BE.UTF-8";
+      LC_TIME = "nl_BE.UTF-8";
     };
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  console.keyMap = "be-latin1"; # Keyboard Layout
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-    tree
-  ];
+  networking = {
+    hostName = "aurora";
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+    # Network Connectivity
+    networkmanager = {
+      enable = true;
+      wifi.powersave = true;
+    };
+  };
 
-  # List services that you want to enable:
+  # Secret Provisioning
+  sops = {
+    defaultSopsFile = "${nixos-secrets}/secrets.yaml";
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+    age = {
+      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+      keyFile = "/var/lib/sops-nix/key.txt";
+      generateKey = true;
+    };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+    validateSopsFiles = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
+    secrets = {
+      # SSH Keys
+      "ssh-keys/services/github".path = "/root/.ssh/id_ed25519_github";
 
+      # Passwords
+      "passwords/users/lysan".neededForUsers = true;
+    };
+  };
+
+  # System Environment
+  environment = {
+    systemPackages = with pkgs; [
+      age # Encryption Tool
+      android-tools # Android SDK Platform-Tools
+      brightnessctl # Backlight Control
+      hydra-check # Package Build Status Checker
+      nixfmt # Nix Formatter
+      nurl # Nix Fetcher Call Generator
+      sops # Secret Management
+      tree # Recursive Directory Listing
+    ];
+
+    sessionVariables.NIXOS_OZONE_WL = "1"; # Chromium Wayland Support
+  };
+
+  nix = {
+    settings.experimental-features = [ "nix-command" "flakes" ];
+
+    # Garbage Collection
+    gc = {
+      options = "--delete-older-than 30d";
+      automatic = true;
+      dates = "Sat 20:00";
+    };
+
+    # Storage Optimisation
+    optimise = {
+      automatic = true;
+      dates = "Sun 20:00";
+    };
+  };
+
+  services = {
+    # Multimedia Framework
+    pipewire = {
+      enable = true;
+
+      # Advanced Linux Sound Architecture
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+
+      pulse.enable = true; # PulseAudio
+      jack.enable = true; # JACK Audio Connection Kit
+    };
+
+    ratbagd.enable = true; # Gaming Mouse Configuration
+    printing.enable = true; # CUPS
+
+    # Service Discovery
+    avahi = {
+      enable = true;
+      nssmdns4 = true; # NSS (IPv4) Plugin
+      openFirewall = true; # UDP 5353
+    };
+
+    gnome.gnome-keyring.enable = true; # Secret Service Provider
+
+    # Secure Shell Server
+    openssh = {
+      enable = true;
+
+      settings = {
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+      };
+    };
+
+    # Display Server
+    xserver = {
+      enable = true;
+      xkb.layout = "be"; # Keyboard
+    };
+
+    # Login Manager
+    displayManager = {
+      enable = true;
+
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
+    };
+
+    flatpak.enable = true; # Sandboxed App Distribution
+  };
+
+  virtualisation = {
+    containers.enable = true;
+
+    podman = {
+      enable = true;
+      defaultNetwork.settings.dns_enabled = true; # Bridge Network (UDP 53)
+    };
+
+    oci-containers.backend = "podman";
+  };
+
+  programs = {
+    zsh.enable = true; # Z Shell
+    gnupg.agent.enable = true; # GNU Privacy Guard
+
+    # Secure Shell Client
+    ssh.extraConfig = ''
+      Host github.com
+        IdentitiesOnly yes
+        IdentityFile ~/.ssh/id_ed25519_yubikey_github
+        IdentityFile ${config.sops.secrets."ssh-keys/services/github".path}
+    '';
+
+    # Scrollable-Tiling Wayland Compositor
+    niri = {
+      enable = true;
+      package = pkgs.niri; # Override Flake
+    };
+
+    # Tiling Wayland Compositor
+    sway = {
+      enable = true;
+      package = pkgs.swayfx; # Eye Candy
+      wrapperFeatures.gtk = true; # GTK Compatibility
+    };
+
+    localsend.enable = true; # LAN File Sharing (TCP/UDP 53317)
+  };
+
+  users = {
+    mutableUsers = false; # Make Declarative
+
+    users.lysan = {
+      isNormalUser = true;
+
+      # Privileges
+      extraGroups = [
+        "wheel" # Root User
+        "video" # Video Devices
+        "networkmanager" # Network Connections
+        "podman" # Containers
+        "adbusers" # Android Debug Bridge
+        "scanner" # Image Scanners
+        "lp" # Printers
+      ];
+
+      hashedPasswordFile = config.sops.secrets."passwords/users/lysan".path;
+      description = "Lysander Fontyn";
+      shell = pkgs.zsh; # Z Shell
+    };
+  };
 }
