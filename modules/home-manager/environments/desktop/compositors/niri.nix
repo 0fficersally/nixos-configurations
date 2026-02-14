@@ -261,70 +261,73 @@
         # Toggleable Menus
         "Mod+Space" = {
           action.spawn-sh = "pgrep rofi >/dev/null 2>&1 && killall rofi || ${lib.getExe pkgs.rofi} -show combi";
-          hotkey-overlay.title = "Application Launcher";
+          hotkey-overlay.title = "Open Application Launcher";
         };
         "Mod+F1" = {
           action.spawn = lib.getExe rofi-tools.packages.${pkgs.stdenv.hostPlatform.system}.rofi-cliphist;
-          hotkey-overlay.title = "Clipboard Manager";
+          hotkey-overlay.title = "Open Clipboard Manager";
         };
         "Mod+F2" = {
           action.spawn = lib.getExe pkgs.rofimoji;
-          hotkey-overlay.title = "Character Picker";
+          hotkey-overlay.title = "Open Character Picker";
         };
         "Mod+F3" = {
           action.spawn = lib.getExe pkgs.rofi-rbw;
-          hotkey-overlay.title = "Password Manager";
+          hotkey-overlay.title = "Open Password Manager";
         };
         "Mod+Menu" = {
           action.spawn = [ (lib.getExe' pkgs.swaynotificationcenter "swaync-client") "-t" "-sw" ];
-          hotkey-overlay.title = "Notification Centre";
+          hotkey-overlay.title = "Toggle Notification Centre";
         };
 
         # Applications
-        "XF86Calculator".action.spawn = lib.getExe pkgs.qalculate-gtk;
+        "XF86Calculator" = {
+          action.spawn = lib.getExe pkgs.qalculate-gtk;
+          hotkey-overlay.title = "Open Multipurpose Calculator";
+        };
         "Mod+Return" = {
-          action.spawn = lib.getExe pkgs.kitty;
-          hotkey-overlay.title = "Terminal Emulator";
+          action.spawn = kitty;
+          hotkey-overlay.title = "Launch Terminal Emulator";
         };
         "Mod+Alt+R" = {
           action.spawn = [ kitty "--hold" (lib.getExe pkgs.btop) ];
-          hotkey-overlay.title = "Resource Monitoring";
+          hotkey-overlay.title = "Launch Resource Monitor";
         };
         "Mod+Alt+F" = {
           action.spawn = lib.getExe pkgs.nemo;
-          hotkey-overlay.title = "File Management";
+          hotkey-overlay.title = "Launch File Manager";
         };
         "Mod+Alt+Shift+F" = {
           action.spawn = lib.getExe pkgs.localsend;
-          hotkey-overlay.title = "File Sharing";
+          hotkey-overlay.title = "Open LAN File-Sharing Program";
         };
         "Mod+Alt+D" = {
           action.spawn = lib.getExe pkgs.vscodium;
-          hotkey-overlay.title = "Software Development (IDE)";
+          hotkey-overlay.title = "Launch Development Environment";
         };
         "Mod+Alt+Shift+D" = {
           action.spawn = [ kitty "--hold" (lib.getExe pkgs.podman-tui) ];
-          hotkey-overlay.title = "Software Development (Podman)";
+          hotkey-overlay.title = "Launch Container Dashboard";
         };
         "Mod+Alt+B" = {
           action.spawn = lib.getExe pkgs.floorp-bin;
-          hotkey-overlay.title = "Web Browsing (Gecko)";
+          hotkey-overlay.title = "Launch Web Browser (Gecko)";
         };
         "Mod+Alt+Shift+B" = {
           action.spawn = lib.getExe pkgs.ungoogled-chromium;
-          hotkey-overlay.title = "Web Browsing (Blink)";
+          hotkey-overlay.title = "Launch Web Browser (Blink)";
         };
         "Mod+Alt+N" = {
           action.spawn = lib.getExe pkgs.obsidian;
-          hotkey-overlay.title = "Note-Taking (PKB)";
+          hotkey-overlay.title = "Launch PKB Suite";
         };
         "Mod+Alt+P" = {
           action.spawn = lib.getExe pkgs.thunderbird;
-          hotkey-overlay.title = "Personal Information Management";
+          hotkey-overlay.title = "Launch PIM Suite";
         };
         "Mod+Alt+M" = {
           action.spawn = lib.getExe pkgs.vesktop;
-          hotkey-overlay.title = "Messaging (Discord)";
+          hotkey-overlay.title = "Launch Messaging Platform";
         };
       };
 
@@ -333,7 +336,7 @@
       spawn-at-startup = [
         { argv = [ (lib.getExe pkgs.wpaperd) "--daemon" ]; } # Wallpaper Daemon
         { argv = [ (lib.getExe pkgs.waybar) ]; } # Status Bar
-        { argv = [ (lib.getExe' pkgs.swayosd "swayosd-server") ]; } # Key Action Indicator
+        { argv = [ (lib.getExe' pkgs.swayosd "swayosd-server") ]; } # Hotkey Action OSD
         { argv = [ (lib.getExe' pkgs.wl-clipboard "wl-paste") "--watch" (lib.getExe pkgs.cliphist) "store" ]; } # Clipboard Manager
         { argv = [ (lib.getExe pkgs.kitty) "--hold" (lib.getExe pkgs.fastfetch) ]; } # System Information Fetcher
       ];

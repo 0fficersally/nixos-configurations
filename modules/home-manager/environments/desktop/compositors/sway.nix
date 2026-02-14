@@ -116,31 +116,31 @@
 
           # Toggleable Menus
           "${modifier}+d" = null; # Unset Default Menu
-          "${modifier}+space" = "exec ${menu}"; # Application Launcher
-          "${modifier}+F1" = "exec ${lib.getExe rofi-tools.packages.${pkgs.stdenv.hostPlatform.system}.rofi-cliphist}"; # Clipboard Manager
-          "${modifier}+F2" = "exec ${lib.getExe pkgs.rofimoji}"; # Character Picker
-          "${modifier}+F3" = "exec ${lib.getExe pkgs.rofi-rbw}"; # Password Manager
-          "${modifier}+Menu" = "exec ${lib.getExe' pkgs.swaynotificationcenter "swaync-client"} -t -sw"; # Notification Centre
+          "${modifier}+space" = "exec ${menu}"; # Open Application Launcher
+          "${modifier}+F1" = "exec ${lib.getExe rofi-tools.packages.${pkgs.stdenv.hostPlatform.system}.rofi-cliphist}"; # Open Clipboard Manager
+          "${modifier}+F2" = "exec ${lib.getExe pkgs.rofimoji}"; # Open Character Picker
+          "${modifier}+F3" = "exec ${lib.getExe pkgs.rofi-rbw}"; # Open Password Manager
+          "${modifier}+Menu" = "exec ${lib.getExe' pkgs.swaynotificationcenter "swaync-client"} -t -sw"; # Toggle Notification Centre
 
           # Applications
-          "XF86Calculator" = "exec ${lib.getExe pkgs.qalculate-gtk}";
-          "${modifier}+Mod1+r" = "exec ${kitty} --hold ${lib.getExe pkgs.btop}"; # Resource Monitor
-          "${modifier}+Mod1+f" = "exec ${lib.getExe pkgs.nemo}"; # File Manager
-          "${modifier}+Mod1+Shift+f" = "exec ${lib.getExe pkgs.localsend}"; # LAN File Sharing
-          "${modifier}+Mod1+d" = "exec ${lib.getExe pkgs.vscodium}"; # Integrated Development Environment
-          "${modifier}+Mod1+Shift+d" = "exec ${kitty} --hold ${lib.getExe pkgs.podman-tui}"; # Podman Dashboard
-          "${modifier}+Mod1+b" = "exec ${lib.getExe pkgs.floorp-bin}"; # Web Browser (Gecko Engine)
-          "${modifier}+Mod1+Shift+b" = "exec ${lib.getExe pkgs.ungoogled-chromium}"; # Web Browser (Blink Engine)
-          "${modifier}+Mod1+n" = "exec ${lib.getExe pkgs.obsidian}"; # Personal Knowledge Base
-          "${modifier}+Mod1+p" = "exec ${lib.getExe pkgs.thunderbird}"; # PIM Suite
-          "${modifier}+Mod1+m" = "exec ${lib.getExe pkgs.vesktop}"; # Discord (Social Platform)
+          "XF86Calculator" = "exec ${lib.getExe pkgs.qalculate-gtk}"; # Open Multipurpose Calculator
+          "${modifier}+Mod1+r" = "exec ${kitty} --hold ${lib.getExe pkgs.btop}"; # Launch Resource Monitor
+          "${modifier}+Mod1+f" = "exec ${lib.getExe pkgs.nemo}"; # Launch File Manager
+          "${modifier}+Mod1+Shift+f" = "exec ${lib.getExe pkgs.localsend}"; # Open LAN File-Sharing Program
+          "${modifier}+Mod1+d" = "exec ${lib.getExe pkgs.vscodium}"; # Launch Development Environment
+          "${modifier}+Mod1+Shift+d" = "exec ${kitty} --hold ${lib.getExe pkgs.podman-tui}"; # Launch Container Dashboard
+          "${modifier}+Mod1+b" = "exec ${lib.getExe pkgs.floorp-bin}"; # Launch Web Browser (Gecko)
+          "${modifier}+Mod1+Shift+b" = "exec ${lib.getExe pkgs.ungoogled-chromium}"; # Launch Web Browser (Blink)
+          "${modifier}+Mod1+n" = "exec ${lib.getExe pkgs.obsidian}"; # Launch PKB Suite
+          "${modifier}+Mod1+p" = "exec ${lib.getExe pkgs.thunderbird}"; # Launch PIM Suite
+          "${modifier}+Mod1+m" = "exec ${lib.getExe pkgs.vesktop}"; # Launch Messaging Platform
         };
 
         defaultWorkspace = "workspace number 1";
 
         startup = [
           { command = "${lib.getExe pkgs.wpaperd} --daemon"; } # Wallpaper Daemon
-          { command = lib.getExe' pkgs.swayosd "swayosd-server"; } # Key Action Indicator
+          { command = lib.getExe' pkgs.swayosd "swayosd-server"; } # Hotkey Action OSD
           { command = "${lib.getExe' pkgs.wl-clipboard "wl-paste"} --watch ${lib.getExe pkgs.cliphist} store"; } # Clipboard Manager
           { command = "${lib.getExe pkgs.kitty} --hold ${lib.getExe pkgs.fastfetch}"; } # System Information Fetcher
         ];

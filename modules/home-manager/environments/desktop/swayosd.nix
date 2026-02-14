@@ -1,7 +1,7 @@
-# On-Screen Display
+# Hotkey Action OSD
 { config, lib, ... }: {
   options = {
-    modules.environments.desktop.swayosd.enable = lib.mkEnableOption "the SwayOSD on-screen display";
+    modules.environments.desktop.swayosd.enable = lib.mkEnableOption "the SwayOSD hotkey action OSD";
   };
 
   config = lib.mkIf config.modules.environments.desktop.swayosd.enable {

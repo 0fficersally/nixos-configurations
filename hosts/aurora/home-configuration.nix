@@ -34,7 +34,7 @@
 
         wpaperd.enable = true; # Wallpaper Daemon
         waybar.enable = true; # Status Bar
-        swayosd.enable = true; # On-Screen Display
+        swayosd.enable = true; # Hotkey Action OSD
         swaynotificationcenter.enable = true; # Notification Daemon
         rofi.enable = true; # Application Launcher
         swayidle.enable = true; # Idle Management Daemon
@@ -134,7 +134,7 @@
       # TUI Applications
       bluetui # Bluetooth Manager
       gdu # Disk Usage Analyser
-      podman-tui # Podman Dashboard
+      podman-tui # Container Dashboard
       wifitui # Wi-Fi Manager
 
       # Desktop Utilities
