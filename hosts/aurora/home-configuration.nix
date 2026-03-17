@@ -32,13 +32,8 @@
           sway.enable = true; # Tiling Wayland Compositor
         };
 
-        wpaperd.enable = true; # Wallpaper Daemon
-        waybar.enable = true; # Status Bar
-        swayosd.enable = true; # Hotkey Action OSD
-        swaynotificationcenter.enable = true; # Notification Daemon
-        rofi.enable = true; # Application Launcher
+        shells.noctalia.enable = true; # Desktop Shell
         swayidle.enable = true; # Idle Management Daemon
-        swaylock.enable = true; # Screen Locking Utility
       };
     };
 
@@ -104,14 +99,7 @@
       "ssh-keys/hosts/quasar".path = "${homeDirectory}/.ssh/id_ed25519_quasar";
 
       # API Keys
-      "api-keys/listenbrainz" = {};
       "api-keys/wakatime" = {};
-
-      # Passwords
-      "passwords/services/nextcloud" = {};
-
-      # Email Addresses
-      "email-addresses/personal" = {};
     };
   };
 

@@ -72,6 +72,8 @@
       frequency = "daily";
     };
 
+    sops.secrets."passwords/services/nextcloud" = {};
+
     # Cloud Backups
     programs.rclone = {
       enable = true;

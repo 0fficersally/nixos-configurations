@@ -5,6 +5,8 @@
   };
 
   config = lib.mkIf config.modules.daemons.mpd.enable {
+    sops.secrets."api-keys/listenbrainz" = {};
+
     services = {
       mpd = {
         enable = true;
