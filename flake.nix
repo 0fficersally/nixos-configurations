@@ -47,6 +47,54 @@
       flake = false;
       url = "git+ssh://git@github.com/0fficersally/nixos-secrets.git?ref=main&shallow=1";
     };
+
+    # Reverse Proxy
+    caddy-compose = {
+      flake = false;
+      url = "git+ssh://git@github.com/0fficersally/caddy-compose.git?ref=main&shallow=1";
+    };
+
+    # Software Forge
+    forgejo-compose = {
+      flake = false;
+      url = "git+ssh://git@github.com/0fficersally/forgejo-compose.git?ref=main&shallow=1";
+    };
+
+    # Photo and Video Management Server
+    immich-compose = {
+      flake = false;
+      url = "git+ssh://git@github.com/0fficersally/immich-compose.git?ref=main&shallow=1";
+    };
+
+    # Java Edition Servers
+    minecraft-compose = {
+      flake = false;
+      url = "git+ssh://git@github.com/0fficersally/minecraft-compose.git?ref=main&shallow=1";
+    };
+
+    # Cloud Suite Server
+    nextcloud-compose = {
+      flake = false;
+      url = "git+ssh://git@github.com/0fficersally/nextcloud-compose.git?ref=main&shallow=1";
+    };
+
+    # Photography Website
+    photography-fontyn = {
+      flake = false;
+      url = "git+ssh://git@github.com/jjbessa/photography-fontyn.git?ref=main&shallow=1";
+    };
+
+    # Internet Metasearch Engine
+    searxng-compose = {
+      flake = false;
+      url = "git+ssh://git@github.com/zero-fisher/searxng-compose.git?ref=main&shallow=1";
+    };
+
+    # WakaTime Back End
+    wakapi-compose = {
+      flake = false;
+      url = "git+ssh://git@github.com/0fficersally/wakapi-compose.git?ref=main&shallow=1";
+    };
   };
 
   outputs = inputs@{
@@ -60,6 +108,14 @@
     nix-flatpak,
     nix4vscode,
     nixos-secrets,
+    caddy-compose,
+    forgejo-compose,
+    immich-compose,
+    minecraft-compose,
+    nextcloud-compose,
+    photography-fontyn,
+    searxng-compose,
+    wakapi-compose,
     ...
   }: {
     nixosConfigurations = {
@@ -95,6 +151,41 @@
         ];
 
         specialArgs = { inherit nixos-secrets; };
+      };
+
+      quasar = nixpkgs.lib.nixosSystem {
+        modules = [
+          ./hosts/quasar/configuration.nix
+          home-manager.nixosModules.home-manager
+          sops-nix.nixosModules.sops
+
+          {
+            home-manager = {
+              sharedModules = [ sops-nix.homeManagerModules.sops ];
+
+              users.lysan.imports = [
+                ./hosts/quasar/home-configuration.nix
+                nixvim.homeModules.nixvim
+              ];
+
+              extraSpecialArgs = { inherit self nixos-secrets; };
+            };
+          }
+        ];
+
+        specialArgs = {
+          inherit
+            nixos-secrets
+            caddy-compose
+            forgejo-compose
+            immich-compose
+            minecraft-compose
+            nextcloud-compose
+            photography-fontyn
+            searxng-compose
+            wakapi-compose
+          ;
+        };
       };
     };
   };
