@@ -149,6 +149,9 @@
   };
 
   services = {
+    upower.enable = true; # Power Device Monitor
+    power-profiles-daemon.enable = true; # Power Profile Manager
+
     # Multimedia Framework
     pipewire = {
       enable = true;
@@ -173,8 +176,6 @@
       openFirewall = true; # UDP 5353
     };
 
-    gnome.gnome-keyring.enable = true; # Secret Service Provider
-
     # Secure Shell Server
     openssh = {
       enable = true;
@@ -191,6 +192,8 @@
       enable = true;
       xkb.layout = "be"; # Keyboard
     };
+
+    gnome.gnome-keyring.enable = true; # Secret Service Provider
 
     # Login Manager
     displayManager = {
@@ -248,6 +251,7 @@
     mutableUsers = false; # Make Declarative
 
     users.lysan = {
+      description = "Lysander Fontyn";
       isNormalUser = true;
 
       # Privileges
@@ -262,7 +266,6 @@
       ];
 
       hashedPasswordFile = config.sops.secrets."passwords/users/lysan".path;
-      description = "Lysander Fontyn";
       shell = pkgs.zsh; # Z Shell
     };
   };
