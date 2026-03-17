@@ -1,5 +1,5 @@
 # Reverse Proxy
-{ config, lib, caddy-compose, ... }: {
+{ config, lib, pkgs, caddy-compose, ... }: {
   options = {
     modules.containers.caddy.enable = lib.mkEnableOption "the Caddy reverse proxy";
   };

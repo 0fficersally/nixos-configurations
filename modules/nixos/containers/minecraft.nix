@@ -1,5 +1,5 @@
 # Java Edition Servers
-{ config, lib, minecraft-compose, ... }: {
+{ config, lib, pkgs, minecraft-compose, ... }: {
   options = {
     modules.containers.minecraft.enable = lib.mkEnableOption "the Minecraft: Java Edition servers";
   };

@@ -1,5 +1,5 @@
 # Photo and Video Management Server
-{ config, lib, immich-compose, ... }: {
+{ config, lib, pkgs, immich-compose, ... }: {
   options = {
     modules.containers.immich.enable = lib.mkEnableOption "the Immich photo and video management server";
   };

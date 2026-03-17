@@ -1,5 +1,5 @@
 # Software Forge
-{ config, lib, forgejo-compose, ... }: {
+{ config, lib, pkgs, forgejo-compose, ... }: {
   options = {
     modules.containers.forgejo.enable = lib.mkEnableOption "the Forgejo software forge";
   };

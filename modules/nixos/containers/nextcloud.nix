@@ -1,5 +1,5 @@
 # Cloud Suite Server
-{ config, lib, nextcloud-compose, ... }: {
+{ config, lib, pkgs, nextcloud-compose, ... }: {
   options = {
     modules.containers.nextcloud.enable = lib.mkEnableOption "the Nextcloud cloud suite server";
   };

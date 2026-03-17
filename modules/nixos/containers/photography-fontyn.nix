@@ -1,5 +1,5 @@
 # Photography Website
-{ config, lib, photography-fontyn, ... }: {
+{ config, lib, pkgs, photography-fontyn, ... }: {
   options = {
     modules.containers.photographyFontyn.enable = lib.mkEnableOption "the Photography Fontyn photography website";
   };
