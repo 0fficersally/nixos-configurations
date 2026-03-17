@@ -23,6 +23,22 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Quickshell Fork
+    noctalia-qs = {
+      url = "github:noctalia-dev/noctalia-qs/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Desktop Shell
+    noctalia-shell = {
+      url = "github:noctalia-dev/noctalia-shell/main";
+
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        noctalia-qs.follows = "noctalia-qs";
+      };
+    };
+
     # Rofi Cliphist Integration
     rofi-tools = {
       url = "github:szaffarano/rofi-tools/master";
@@ -57,6 +73,7 @@
     home-manager,
     sops-nix,
     niri-flake,
+    noctalia-shell,
     rofi-tools,
     nixvim,
     nix-flatpak,
@@ -68,11 +85,11 @@
       # Framework Laptop 16
       aurora = nixpkgs.lib.nixosSystem {
         modules = [
+          nixos-hardware.nixosModules.framework-16-amd-ai-300-series
+          home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
           niri-flake.nixosModules.niri
           ./hosts/aurora/configuration.nix
-          nixos-hardware.nixosModules.framework-16-amd-ai-300-series
-          home-manager.nixosModules.home-manager
 
           {
             boot.initrd.luks.devices.luks-68cd8be7-08ff-45ad-a888-a23dc0800fed.device = "/dev/disk/by-uuid/68cd8be7-08ff-45ad-a888-a23dc0800fed"; # Disk Encryption
@@ -81,9 +98,10 @@
               sharedModules = [ sops-nix.homeManagerModules.sops ];
 
               users.lysan.imports = [
-                ./hosts/aurora/home-configuration.nix
+                noctalia-shell.homeModules.default
                 nixvim.homeModules.nixvim
                 nix-flatpak.homeManagerModules.nix-flatpak
+                ./hosts/aurora/home-configuration.nix
 
                 {
                   nixpkgs.overlays = [ nix4vscode.overlays.default ];
