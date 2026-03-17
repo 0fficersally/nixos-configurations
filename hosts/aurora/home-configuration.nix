@@ -105,7 +105,7 @@
 
   # User Environment
   home = {
-    stateVersion = "25.05"; # Configuration Defaults
+    stateVersion = "25.11"; # Configuration Defaults
     username = "lysan";
     homeDirectory = "/home/lysan";
 

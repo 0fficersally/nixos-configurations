@@ -1,14 +1,13 @@
 { config, pkgs, nixos-secrets, ... }: {
   imports = [
-    ./hardware-configuration.nix # Hardware Scan
+    ./hardware-configuration.nix # Hardware Scan Results
     ../../modules/nixos # NixOS Modules
   ];
 
-  system.stateVersion = "25.05"; # Configuration Defaults
+  system.stateVersion = "25.11"; # Configuration Defaults
   nixpkgs.config.allowUnfree = true; # Proprietary Software
 
   modules = {
-    hardware.gpus.nvidia.enable = true;
     applications.gui.steam.enable = true;
   };
 
@@ -40,24 +39,28 @@
 
   time.timeZone = "Europe/Brussels";
 
-  boot.loader = {
-    efi.canTouchEfiVariables = true;
+  boot = {
+    loader = {
+      efi.canTouchEfiVariables = true;
 
-    grub = {
-      enable = true;
-      efiSupport = true;
-      device = "nodev";
+      grub = {
+        enable = true;
+        efiSupport = true;
+        device = "nodev";
 
-      extraEntries = ''
-        menuentry "Restart System" {
-          reboot
-        }
+        extraEntries = ''
+          menuentry "Restart System" {
+            reboot
+          }
 
-        menuentry "Shut Down System" {
-          halt
-        }
-      '';
+          menuentry "Shut Down System" {
+            halt
+          }
+        '';
+      };
     };
+
+    kernelPackages = pkgs.linuxPackages_latest; # Latest Kernel
   };
 
   security = {

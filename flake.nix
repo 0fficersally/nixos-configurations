@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # Packages
+    nixos-hardware.url = "github:nixos/nixos-hardware/master"; # Hardware Modules
 
     # User Environments
     home-manager = {
@@ -52,6 +53,7 @@
   outputs = inputs@{
     self,
     nixpkgs,
+    nixos-hardware,
     home-manager,
     sops-nix,
     niri-flake,
@@ -63,18 +65,17 @@
     ...
   }: {
     nixosConfigurations = {
+      # Framework Laptop 16
       aurora = nixpkgs.lib.nixosSystem {
         modules = [
-          ./hosts/aurora/configuration.nix
-          home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
           niri-flake.nixosModules.niri
+          ./hosts/aurora/configuration.nix
+          nixos-hardware.nixosModules.framework-16-amd-ai-300-series
+          home-manager.nixosModules.home-manager
 
           {
-            hardware.nvidia.prime = {
-              intelBusId = "PCI:0:2:0"; # Integrated
-              nvidiaBusId = "PCI:1:0:0"; # Discrete
-            };
+            boot.initrd.luks.devices.luks-68cd8be7-08ff-45ad-a888-a23dc0800fed.device = "/dev/disk/by-uuid/68cd8be7-08ff-45ad-a888-a23dc0800fed"; # Disk Encryption
 
             home-manager = {
               sharedModules = [ sops-nix.homeManagerModules.sops ];
