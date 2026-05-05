@@ -1,10 +1,12 @@
 # Integrated Development Environment
-{ config, lib, pkgs, osConfig, ... }: {
+{ config, lib, pkgs, osConfig, nix4vscode, ... }: {
   options = {
     modules.applications.gui.vsCode.enable = lib.mkEnableOption "the Visual Studio Code IDE";
   };
 
   config = lib.mkIf config.modules.applications.gui.vsCode.enable {
+    nixpkgs.overlays = [ nix4vscode.overlays.default ];
+
     programs.vscode = {
       enable = true;
       package = pkgs.vscodium; # Libre

@@ -92,9 +92,17 @@
           ./hosts/aurora/configuration.nix
 
           {
-            boot.initrd.luks.devices.luks-68cd8be7-08ff-45ad-a888-a23dc0800fed.device = "/dev/disk/by-uuid/68cd8be7-08ff-45ad-a888-a23dc0800fed"; # Disk Encryption
+            modules.hardware.gpus.amd.enable = true;
+            boot.initrd.luks.devices.luks-68cd8be7-08ff-45ad-a888-a23dc0800fed.device = "/dev/disk/by-uuid/68cd8be7-08ff-45ad-a888-a23dc0800fed"; # Swap Encryption
+
+            fileSystems."/mnt/Games" = {
+              device = "/dev/disk/by-uuid/a592a002-3d83-44ff-a293-60884e4b2cf3";
+              fsType = "ext4";
+              options = [ "defaults" "nofail" ];
+            };
 
             home-manager = {
+              useUserPackages = true;
               sharedModules = [ sops-nix.homeManagerModules.sops ];
 
               users.lysan.imports = [
@@ -102,13 +110,9 @@
                 nixvim.homeModules.nixvim
                 nix-flatpak.homeManagerModules.nix-flatpak
                 ./hosts/aurora/home-configuration.nix
-
-                {
-                  nixpkgs.overlays = [ nix4vscode.overlays.default ];
-                }
               ];
 
-              extraSpecialArgs = { inherit self rofi-tools nixos-secrets; };
+              extraSpecialArgs = { inherit self rofi-tools nix4vscode nixos-secrets; };
             };
           }
         ];
