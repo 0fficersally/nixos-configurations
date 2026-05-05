@@ -35,12 +35,7 @@
       };
 
       desktop = {
-        # Wayland Display Servers
-        compositors = {
-          niri.enable = true; # Scrollable-Tiling Wayland Compositor
-          sway.enable = true; # Tiling Wayland Compositor
-        };
-
+        compositors.niri.enable = true; # Scrollable-Tiling Wayland Compositor
         shells.noctalia.enable = true; # Desktop Shell
       };
     };

@@ -261,13 +261,6 @@
       package = pkgs.niri; # Override Flake
     };
 
-    # Tiling Wayland Compositor
-    sway = {
-      enable = true;
-      package = pkgs.swayfx; # Eye Candy
-      wrapperFeatures.gtk = true; # GTK Compatibility
-    };
-
     localsend.enable = true; # LAN File Sharing (TCP/UDP 53317)
   };
 
