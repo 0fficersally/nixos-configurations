@@ -1,14 +1,22 @@
-{ config, pkgs, nixos-secrets, ... }: {
+{ config, lib, pkgs, nixos-secrets, ... }: {
   imports = [
     ./hardware-configuration.nix # Hardware Scan Results
     ../../modules/nixos # NixOS Modules
   ];
 
   system.stateVersion = "25.11"; # Configuration Defaults
-  nixpkgs.config.allowUnfree = true; # Proprietary Software
+
+  nixpkgs.config.allowUnfreePredicate = package: builtins.elem (lib.getName package) [
+    "hplip"
+    "steam"
+    "steam-unwrapped"
+  ];
 
   modules = {
-    applications.gui.steam.enable = true;
+    applications = {
+      gui.steam.enable = true; # Gaming Platform
+      web.homepage.enable = true; # Web Application Dashboard
+    };
   };
 
   hardware = {
@@ -169,6 +177,7 @@
       jack.enable = true; # JACK Audio Connection Kit
     };
 
+    udisks2.enable = true; # External Storage Device Manager
     ratbagd.enable = true; # Gaming Mouse Configuration
     printing.enable = true; # CUPS
 
@@ -204,7 +213,21 @@
 
       sddm = {
         enable = true;
-        wayland.enable = true;
+
+        wayland = {
+          enable = true;
+          compositor = "kwin";
+        };
+
+        autoNumlock = true;
+
+        # Noctalia Desktop Shell
+        theme = builtins.toString (pkgs.fetchFromGitHub {
+          owner = "mahaveergurjar";
+          repo = "sddm";
+          rev = "77055e5a8c85a59db3c009da55ae3670ee082ace";
+          hash = "sha256-q/aw4PLSHhS2jKjRl8F1JIBZn1aBV/QBEDgZ+2Oyo2A=";
+        });
       };
     };
 
@@ -218,8 +241,6 @@
       enable = true;
       defaultNetwork.settings.dns_enabled = true; # Bridge Network (UDP 53)
     };
-
-    oci-containers.backend = "podman";
   };
 
   programs = {
