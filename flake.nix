@@ -2,10 +2,10 @@
   description = "NixOS Configurations";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # Packages
-    nixos-hardware.url = "github:nixos/nixos-hardware/master"; # Hardware Modules
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # Software Repository
+    nixos-hardware.url = "github:nixos/nixos-hardware/master"; # Hardware NixOS Modules
 
-    # User Environments
+    # User Environment Declaration
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -45,13 +45,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-flatpak.url = "github:gmodena/nix-flatpak/latest"; # Flatpak Declaration
+
     # Neovim Configuration
     nixvim = {
       url = "github:nix-community/nixvim/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-flatpak.url = "github:gmodena/nix-flatpak/latest"; # Flatpak Declaration
+    dolphin-overlay.url = "github:rumboon/dolphin-overlay/main"; # Repopulate Application List Outside Plasma
 
     # Visual Studio Code Extensions
     nix4vscode = {
@@ -75,8 +77,9 @@
     niri-flake,
     noctalia-shell,
     rofi-tools,
-    nixvim,
     nix-flatpak,
+    nixvim,
+    dolphin-overlay,
     nix4vscode,
     nixos-secrets,
     ...
@@ -112,7 +115,7 @@
                 ./hosts/aurora/home-configuration.nix
               ];
 
-              extraSpecialArgs = { inherit self rofi-tools nix4vscode nixos-secrets; };
+              extraSpecialArgs = { inherit self rofi-tools dolphin-overlay nix4vscode nixos-secrets; };
             };
           }
         ];

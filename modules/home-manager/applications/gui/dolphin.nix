@@ -1,10 +1,11 @@
 # File Manager
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, dolphin-overlay, ... }: {
   options = {
     modules.applications.gui.dolphin.enable = lib.mkEnableOption "the Dolphin file manager";
   };
 
   config = lib.mkIf config.modules.applications.gui.dolphin.enable {
+    nixpkgs.overlays = [ dolphin-overlay.overlays.default ]; # [Workaround](https://github.com/NixOS/nixpkgs/issues/409986)
     home.packages = with pkgs; [ kdePackages.dolphin ];
 
     qt.kde.settings.kdeglobals = {
