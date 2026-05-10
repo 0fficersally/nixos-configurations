@@ -5,6 +5,8 @@
   };
 
   config = lib.mkIf config.modules.appearance.toolkits.enable {
+    home.packages = with pkgs; [ catppuccin-qt5ct ];
+
     gtk = {
       enable = true;
       
@@ -33,8 +35,17 @@
 
     qt = {
       enable = true;
-      platformTheme.name = "adwaita";
-      style.name = "adwaita-dark";
+      platformTheme.name = "qtct";
+
+      qt5ctSettings.Appearance = {
+        custom_palette = true;
+        color_scheme_path = "${pkgs.catppuccin-qt5ct}/share/qt5ct/colors/catppuccin-macchiato-sky.conf";
+      };
+
+      qt6ctSettings.Appearance = {
+        custom_palette = true;
+        color_scheme_path = "${pkgs.catppuccin-qt5ct}/share/qt6ct/colors/catppuccin-macchiato-sky.conf";
+      };
     };
   };
 }
