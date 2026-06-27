@@ -5,16 +5,22 @@
   };
 
   config = lib.mkIf config.modules.applications.gui.nemo.enable {
-    home.packages = with pkgs; [(nemo-with-extensions.override {
-      useDefaultExtensions = false;
+    home.packages = with pkgs; [
+      # Dependencies
+      file-roller # Archive Manager
+      seahorse # Encryption Key Manager
 
-      extensions = [
-        nemo-fileroller
-        nemo-preview
-        nemo-python
-        nemo-seahorse
-      ];
-    })];
+      (nemo-with-extensions.override {
+        useDefaultExtensions = false;
+
+        extensions = [
+          nemo-fileroller
+          nemo-preview
+          nemo-python
+          nemo-seahorse
+        ];
+      })
+    ];
 
     dconf.settings."org/nemo/preferences".desktop-is-home-dir = true; # Prevent Desktop Directory Creation
 
