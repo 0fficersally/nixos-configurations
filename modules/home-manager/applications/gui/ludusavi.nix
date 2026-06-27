@@ -19,7 +19,7 @@
 
           {
             store = "heroic";
-            path = "${config.home.homeDirectory}/Games/Heroic";
+            path = "/mnt/Games/Heroic";
           }
 
           {
@@ -29,7 +29,7 @@
 
           {
             store = "steam";
-            path = "${config.home.homeDirectory}/Games/Steam";
+            path = "/mnt/Games/Steam";
           }
         ];
 
