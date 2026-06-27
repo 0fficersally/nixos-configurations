@@ -5,6 +5,6 @@
   };
 
   config = lib.mkIf config.modules.applications.tui.wiremix.enable {
-    home.packages = [ pkgs.wiremix ];
+    home.packages = with pkgs; [ wiremix ];
   };
 }
