@@ -25,6 +25,13 @@
         {
           Ruby = [
             {
+              "Bannerfall".widget = {
+                type = "minecraft";
+                url = "udp://bannerfall.zerofisher.dev";
+              };
+            }
+
+            {
               "Musubi Retreat".widget = {
                 type = "minecraft";
                 url = "udp://musubi-retreat.zerofisher.dev";
