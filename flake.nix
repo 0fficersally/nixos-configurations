@@ -61,6 +61,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Virtual Private Network
+    windscribe = {
+      url = "github:syntheit/windscribe-nix/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # SOPS Secrets
     nixos-secrets = {
       flake = false;
@@ -81,6 +87,7 @@
     nixvim,
     dolphin-overlay,
     nix4vscode,
+    windscribe,
     nixos-secrets,
     ...
   }: {
@@ -92,9 +99,11 @@
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
           niri-flake.nixosModules.niri
+          windscribe.nixosModules.windscribe
           ./hosts/aurora/configuration.nix
 
           {
+            nixpkgs.overlays = [ windscribe.overlays.default ];
             modules.hardware.gpus.amd.enable = true;
             boot.initrd.luks.devices.luks-68cd8be7-08ff-45ad-a888-a23dc0800fed.device = "/dev/disk/by-uuid/68cd8be7-08ff-45ad-a888-a23dc0800fed"; # Swap Encryption
 

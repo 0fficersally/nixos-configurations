@@ -160,6 +160,7 @@
   };
 
   services = {
+    resolved.enable = true; # Network Name Resolution Manager
     upower.enable = true; # Power Device Monitor
     power-profiles-daemon.enable = true; # Power Profile Manager
 
@@ -179,7 +180,6 @@
 
     udisks2.enable = true; # External Storage Device Manager
     ratbagd.enable = true; # Gaming Mouse Configuration
-    printing.enable = true; # CUPS
 
     # Service Discovery
     avahi = {
@@ -187,6 +187,9 @@
       nssmdns4 = true; # NSS (IPv4) Plugin
       openFirewall = true; # UDP 5353
     };
+
+    printing.enable = true; # CUPS
+    windscribe.enable = true; # Virtual Private Network
 
     # Secure Shell Server
     openssh = {
@@ -231,6 +234,7 @@
       };
     };
 
+    qbittorrent.enable = true; # BitTorrent Client
     flatpak.enable = true; # Sandboxed App Distribution
   };
 

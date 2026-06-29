@@ -426,7 +426,8 @@
         "noctalia-qs": "noctalia-qs",
         "noctalia-shell": "noctalia-shell",
         "rofi-tools": "rofi-tools",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "windscribe": "windscribe"
       }
     },
     "sops-nix": {
@@ -550,6 +551,27 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "windscribe": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775545506,
+        "narHash": "sha256-IH7vy8KnIApiqxytLcVX5CJiKuzvndGDqaHgG7z1aP0=",
+        "owner": "syntheit",
+        "repo": "windscribe-nix",
+        "rev": "8968f6a988c308d3887057d2279a76a513f0be58",
+        "type": "github"
+      },
+      "original": {
+        "owner": "syntheit",
+        "ref": "main",
+        "repo": "windscribe-nix",
         "type": "github"
       }
     },
