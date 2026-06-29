@@ -140,10 +140,10 @@
       brush-splat # 3D Reconstruction Engine
       colmap # SfM and MVS Pipeline
       eid-mw # Belgian Electronic ID Middleware
-      file-roller # Archive Manager
       gimp3 # Image Manipulation
       godot # Game Engine
       inkscape # Vector Graphics Editor
+      kdePackages.ark # Archive Manager
       kdePackages.kdenlive # Video Editor
       krita # Digital Painting
       libreoffice # Office Suite
@@ -154,9 +154,9 @@
       pdfarranger # PDF Page Arranger
       piper # Gaming Mouse Configuration
       qalculate-qt # Multipurpose Calculator
+      qbittorrent # BitTorrent Client
       qpwgraph # Audio Patchbay
       scrcpy # Android Remote Control
-      seahorse # Encryption Key Manager
       sidequest # Meta Quest Sideloading
       vlc # Media Player
       xournalpp # Note-Taking
@@ -182,7 +182,6 @@
     userDirs = {
       createDirectories = true;
       desktop = null;
-      templates = null;
       publicShare = null;
     };
 
