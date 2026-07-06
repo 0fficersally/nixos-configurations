@@ -96,7 +96,7 @@
   console.keyMap = "be-latin1"; # Keyboard Layout
 
   networking = {
-    hostName = "aurora";
+    hostName = "peridot";
 
     # Network Connectivity
     networkmanager = {

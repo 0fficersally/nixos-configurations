@@ -105,7 +105,7 @@
     secrets = {
       # SSH Keys
       "ssh-keys/services/github".path = "${homeDirectory}/.ssh/id_ed25519_github";
-      "ssh-keys/hosts/quasar".path = "${homeDirectory}/.ssh/id_ed25519_quasar";
+      "ssh-keys/hosts/ruby".path = "${homeDirectory}/.ssh/id_ed25519_ruby";
 
       # API Keys
       "api-keys/wakatime" = {};

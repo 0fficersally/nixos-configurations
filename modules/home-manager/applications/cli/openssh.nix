@@ -35,10 +35,10 @@
         };
 
         # Remote Server
-        "quasar" = {
-          hostname = "quasar.zerofisher.dev";
+        "ruby" = {
+          hostname = "ruby.zerofisher.dev";
           addKeysToAgent = "yes";
-          identityFile = config.sops.secrets."ssh-keys/hosts/quasar".path;
+          identityFile = config.sops.secrets."ssh-keys/hosts/ruby".path;
         };
       };
     };

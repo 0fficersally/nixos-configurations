@@ -93,14 +93,14 @@
   }: {
     nixosConfigurations = {
       # Framework Laptop 16
-      aurora = nixpkgs.lib.nixosSystem {
+      peridot = nixpkgs.lib.nixosSystem {
         modules = [
           nixos-hardware.nixosModules.framework-16-amd-ai-300-series
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
           niri-flake.nixosModules.niri
           windscribe.nixosModules.windscribe
-          ./hosts/aurora/configuration.nix
+          ./hosts/peridot/configuration.nix
 
           {
             nixpkgs.overlays = [ windscribe.overlays.default ];
@@ -121,7 +121,7 @@
                 noctalia-shell.homeModules.default
                 nixvim.homeModules.nixvim
                 nix-flatpak.homeManagerModules.nix-flatpak
-                ./hosts/aurora/home-configuration.nix
+                ./hosts/peridot/home-configuration.nix
               ];
 
               extraSpecialArgs = { inherit self rofi-tools dolphin-overlay nix4vscode nixos-secrets; };
