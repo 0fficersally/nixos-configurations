@@ -228,8 +228,8 @@
         theme = builtins.toString (pkgs.fetchFromGitHub {
           owner = "mahaveergurjar";
           repo = "sddm";
-          rev = "77055e5a8c85a59db3c009da55ae3670ee082ace";
-          hash = "sha256-q/aw4PLSHhS2jKjRl8F1JIBZn1aBV/QBEDgZ+2Oyo2A=";
+          rev = "40012eecd7f8be7ff4c3ae02241e5f58d28f82f6";
+          hash = "sha256-e/gYI6znHXxlDCOVh4p265x3kO0nQUU897hCY1yEz88=";
         });
       };
     };
