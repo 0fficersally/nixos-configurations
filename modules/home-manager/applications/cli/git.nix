@@ -16,6 +16,8 @@
 
         init.defaultBranch = "main";
       };
+
+      lfs.enable = true; # Large File Storage
     };
   };
 }
