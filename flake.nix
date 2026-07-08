@@ -23,20 +23,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Quickshell Fork
-    noctalia-qs = {
-      url = "github:noctalia-dev/noctalia-qs/master";
+    # Desktop Shell (Legacy)
+    noctalia-v4 = {
+      url = "github:noctalia-dev/noctalia/legacy-v4";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Desktop Shell
-    noctalia-shell = {
-      url = "github:noctalia-dev/noctalia-shell/main";
-
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        noctalia-qs.follows = "noctalia-qs";
-      };
+    # Desktop Shell (Rewrite)
+    noctalia-v5 = {
+      url = "github:noctalia-dev/noctalia/main";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Rofi Cliphist Integration
@@ -46,14 +42,8 @@
     };
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/latest"; # Flatpak Declaration
-
-    # Neovim Configuration
-    nixvim = {
-      url = "github:nix-community/nixvim/main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    dolphin-overlay.url = "github:rumboon/dolphin-overlay/main"; # Repopulate Application List Outside Plasma
+    nixvim.url = "github:nix-community/nixvim/main"; # Neovim Configuration
+    dolphin-overlay.url = "github:gipphe/dolphin-overlay/main"; # Repopulate Application List Outside Plasma
 
     # Visual Studio Code Extensions
     nix4vscode = {
@@ -81,7 +71,8 @@
     home-manager,
     sops-nix,
     niri-flake,
-    noctalia-shell,
+    noctalia-v4,
+    noctalia-v5,
     rofi-tools,
     nix-flatpak,
     nixvim,
@@ -118,7 +109,8 @@
               sharedModules = [ sops-nix.homeManagerModules.sops ];
 
               users.lysan.imports = [
-                noctalia-shell.homeModules.default
+                noctalia-v4.homeModules.default
+                noctalia-v5.homeModules.default
                 nixvim.homeModules.nixvim
                 nix-flatpak.homeManagerModules.nix-flatpak
                 ./hosts/peridot/home-configuration.nix

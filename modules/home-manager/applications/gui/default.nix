@@ -20,6 +20,6 @@
     ./sober.nix # Roblox Player (Gaming Platform)
     ./thunderbird.nix # PIM Suite
     ./vesktop.nix # Discord (Social Platform)
-    ./vs-code.nix # Integrated Development Environment
+    ./vscodium.nix # Integrated Development Environment
   ];
 }

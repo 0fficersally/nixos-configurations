@@ -36,7 +36,12 @@
 
       desktop = {
         compositors.niri.enable = true; # Scrollable-Tiling Wayland Compositor
-        shells.noctalia.enable = true; # Desktop Shell
+
+        # Desktop Shell
+        shells.noctalia = {
+          enable = true;
+          version = "v4"; # Legacy
+        };
       };
     };
 
@@ -84,7 +89,7 @@
         sober.enable = true; # Roblox Player (Gaming Platform)
         thunderbird.enable = true; # PIM Suite
         vesktop.enable = true; # Discord (Social Platform)
-        vsCode.enable = true; # Integrated Development Environment
+        vscodium.enable = true; # Integrated Development Environment
       };
     };
 

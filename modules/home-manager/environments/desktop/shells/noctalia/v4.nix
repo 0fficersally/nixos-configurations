@@ -1,11 +1,6 @@
-{ config, lib, pkgs, ... }: {
-  options = {
-    modules.environments.desktop.shells.noctalia.enable = lib.mkEnableOption "the Noctalia desktop shell";
-  };
-
-  config = lib.mkIf config.modules.environments.desktop.shells.noctalia.enable {
-    services.cliphist.enable = true; # Wayland Clipboard Manager
-
+# Legacy
+{ config, lib, pkgs, ... }: let noctalia = config.modules.environments.desktop.shells.noctalia; in {
+  config = lib.mkIf (noctalia.enable && noctalia.version == "v4") {
     programs.noctalia-shell = {
       enable = true;
       package = pkgs.noctalia-shell; # Override Flake
@@ -731,7 +726,7 @@
         sources = [
           {
             name = "Noctalia Plugins";
-            url = "https://github.com/noctalia-dev/noctalia-plugins";
+            url = "https://github.com/noctalia-dev/legacy-v4-plugins";
             enabled = true;
           }
         ];
@@ -739,17 +734,17 @@
         states = {
           polkit-agent = {
             enabled = true;
-            sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
+            sourceUrl = "https://github.com/noctalia-dev/legacy-v4-plugins";
           };
 
           unicode-picker = {
             enabled = true;
-            sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
+            sourceUrl = "https://github.com/noctalia-dev/legacy-v4-plugins";
           };
 
           usb-drive-manager = {
             enabled = true;
-            sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
+            sourceUrl = "https://github.com/noctalia-dev/legacy-v4-plugins";
           };
         };
       };
