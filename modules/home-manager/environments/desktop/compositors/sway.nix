@@ -24,7 +24,7 @@
         output = {
           # Internal
           "eDP-1" = {
-            mode = "2560x1440@240Hz";
+            mode = "2560x1600@165Hz";
             scale = "1.5";
           };
         };
@@ -123,9 +123,9 @@
           "${modifier}+Menu" = "exec ${lib.getExe' pkgs.swaynotificationcenter "swaync-client"} -t -sw"; # Toggle Notification Centre
 
           # Applications
-          "XF86Calculator" = "exec ${lib.getExe pkgs.qalculate-gtk}"; # Open Multipurpose Calculator
+          "XF86Calculator" = "exec ${lib.getExe pkgs.qalculate-qt}"; # Open Multipurpose Calculator
           "${modifier}+Mod1+r" = "exec ${kitty} --hold ${lib.getExe pkgs.btop}"; # Launch Resource Monitor
-          "${modifier}+Mod1+f" = "exec ${lib.getExe pkgs.nemo}"; # Launch File Manager
+          "${modifier}+Mod1+f" = "exec ${lib.getExe' pkgs.kdePackages.dolphin "dolphin"}"; # Launch File Manager
           "${modifier}+Mod1+Shift+f" = "exec ${lib.getExe pkgs.localsend}"; # Open LAN File-Sharing Program
           "${modifier}+Mod1+d" = "exec ${lib.getExe pkgs.vscodium}"; # Launch Development Environment
           "${modifier}+Mod1+Shift+d" = "exec ${kitty} --hold ${lib.getExe pkgs.podman-tui}"; # Launch Container Dashboard

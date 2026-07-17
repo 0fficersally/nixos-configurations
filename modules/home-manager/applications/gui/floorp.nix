@@ -92,14 +92,6 @@
           private_browsing = true;
         };
 
-        # uBlock Origin
-        "uBlock0@raymondhill.net" = {
-          install_url = getInstallUrl "ublock-origin";
-          installation_mode = "force_installed";
-          default_area = "navbar";
-          private_browsing = true;
-        };
-
         # User-Agent Switcher and Manager
         "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
           install_url = getInstallUrl "user-agent-string-switcher";
@@ -111,6 +103,21 @@
         # Violentmonkey
         "{aecec67f-0d10-4fa7-b7c7-609a2db280cf}" = {
           install_url = getInstallUrl "violentmonkey";
+          installation_mode = "force_installed";
+          default_area = "navbar";
+          private_browsing = true;
+        };
+
+        # Web Scrobbler
+        "{799c0914-748b-41df-a25c-22d008f9e83f}" = {
+          install_url = getInstallUrl "web-scrobbler";
+          installation_mode = "force_installed";
+          default_area = "menupanel";
+        };
+
+        # Windscribe
+        "@windscribeff" = {
+          install_url = getInstallUrl "windscribe";
           installation_mode = "force_installed";
           default_area = "navbar";
           private_browsing = true;

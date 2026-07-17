@@ -9,36 +9,36 @@
       enable = true;
       enableDefaultConfig = false;
 
-      matchBlocks = {
-        # Defaults
-        "*" = {
-          forwardAgent = false;
-          addKeysToAgent = "no";
-          userKnownHostsFile = "~/.ssh/known_hosts";
-          hashKnownHosts = false;
-          compression = false;
-          serverAliveInterval = 0;
-          serverAliveCountMax = 3;
-          controlMaster = "no";
-          controlPath = "~/.ssh/master-%r@%n:%p";
-          controlPersist = "no";
+      settings = {
+        # Remote Server
+        "Host ruby" = {
+          AddKeysToAgent = "yes";
+          HostName = "ruby.zerofisher.dev";
+          IdentityFile = config.sops.secrets."ssh-keys/hosts/ruby".path;
         };
 
         # Git Hosting Service
-        "github.com" = {
-          identitiesOnly = true;
+        "Host github.com" = {
+          IdentitiesOnly = "yes";
 
-          identityFile = [
+          IdentityFile = [
             "~/.ssh/id_ed25519_yubikey_github"
             config.sops.secrets."ssh-keys/services/github".path # Fallback
           ];
         };
 
-        # Remote Server
-        "quasar" = {
-          hostname = "quasar.zerofisher.dev";
-          addKeysToAgent = "yes";
-          identityFile = config.sops.secrets."ssh-keys/hosts/quasar".path;
+        # Defaults
+        "Host *" = {
+          AddKeysToAgent = "no";
+          Compression = "no";
+          ControlMaster = "no";
+          ControlPath = "~/.ssh/master-%r@%n:%p";
+          ControlPersist = "no";
+          ForwardAgent = "no";
+          HashKnownHosts = "no";
+          ServerAliveCountMax = 3;
+          ServerAliveInterval = 0;
+          UserKnownHostsFile = "~/.ssh/known_hosts";
         };
       };
     };

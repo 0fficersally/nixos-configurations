@@ -1,13 +1,14 @@
 # Integrated Development Environment
-{ config, lib, pkgs, osConfig, ... }: {
+{ config, lib, pkgs, osConfig, nix4vscode, ... }: {
   options = {
-    modules.applications.gui.vsCode.enable = lib.mkEnableOption "the Visual Studio Code IDE";
+    modules.applications.gui.vscodium.enable = lib.mkEnableOption "the VSCodium IDE";
   };
 
-  config = lib.mkIf config.modules.applications.gui.vsCode.enable {
-    programs.vscode = {
+  config = lib.mkIf config.modules.applications.gui.vscodium.enable {
+    nixpkgs.overlays = [ nix4vscode.overlays.default ];
+
+    programs.vscodium = {
       enable = true;
-      package = pkgs.vscodium; # Libre
 
       # Settings Synchronisation
       profiles.default.extensions = pkgs.nix4vscode.forOpenVsx [
@@ -16,6 +17,7 @@
       ];
     };
 
+    # Sync Settings Configuration
     xdg.configFile."VSCodium/User/globalStorage/zokugun.sync-settings/settings.yml".text = ''
       hostname: ${osConfig.networking.hostName}
       profile: default

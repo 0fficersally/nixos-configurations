@@ -29,18 +29,11 @@
           };
 
           "group/context" = {
-            modules = [ "privacy" "gamemode" ];
+            modules = [ "privacy" ];
             orientation = "horizontal";
           };
 
           privacy = {
-            icon-size = 24;
-            icon-spacing = 4;
-          };
-
-          gamemode = {
-            format = "{glyph}";
-            tooltip-format = "{count} Running Games";
             icon-size = 24;
             icon-spacing = 4;
           };
@@ -263,7 +256,6 @@
           border-radius: 12px;
         }
 
-        #gamemode:not(:first-child),
         #bluetooth,
         #jack,
         #idle_inhibitor,

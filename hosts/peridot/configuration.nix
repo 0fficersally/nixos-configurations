@@ -1,15 +1,22 @@
-{ config, pkgs, nixos-secrets, ... }: {
+{ config, lib, pkgs, nixos-secrets, ... }: {
   imports = [
-    ./hardware-configuration.nix # Hardware Scan
+    ./hardware-configuration.nix # Hardware Scan Results
     ../../modules/nixos # NixOS Modules
   ];
 
-  system.stateVersion = "25.05"; # Configuration Defaults
-  nixpkgs.config.allowUnfree = true; # Proprietary Software
+  system.stateVersion = "25.11"; # Configuration Defaults
+
+  nixpkgs.config.allowUnfreePredicate = package: builtins.elem (lib.getName package) [
+    "hplip"
+    "steam"
+    "steam-unwrapped"
+  ];
 
   modules = {
-    hardware.gpus.nvidia.enable = true;
-    applications.gui.steam.enable = true;
+    applications = {
+      gui.steam.enable = true; # Gaming Platform
+      web.homepage.enable = true; # Web Application Dashboard
+    };
   };
 
   hardware = {
@@ -40,24 +47,28 @@
 
   time.timeZone = "Europe/Brussels";
 
-  boot.loader = {
-    efi.canTouchEfiVariables = true;
+  boot = {
+    loader = {
+      efi.canTouchEfiVariables = true;
 
-    grub = {
-      enable = true;
-      efiSupport = true;
-      device = "nodev";
+      grub = {
+        enable = true;
+        efiSupport = true;
+        device = "nodev";
 
-      extraEntries = ''
-        menuentry "Restart System" {
-          reboot
-        }
+        extraEntries = ''
+          menuentry "Restart System" {
+            reboot
+          }
 
-        menuentry "Shut Down System" {
-          halt
-        }
-      '';
+          menuentry "Shut Down System" {
+            halt
+          }
+        '';
+      };
     };
+
+    kernelPackages = pkgs.linuxPackages_latest; # Latest Kernel
   };
 
   security = {
@@ -85,7 +96,7 @@
   console.keyMap = "be-latin1"; # Keyboard Layout
 
   networking = {
-    hostName = "aurora";
+    hostName = "peridot";
 
     # Network Connectivity
     networkmanager = {
@@ -149,6 +160,10 @@
   };
 
   services = {
+    resolved.enable = true; # Network Name Resolution Manager
+    upower.enable = true; # Power Device Monitor
+    power-profiles-daemon.enable = true; # Power Profile Manager
+
     # Multimedia Framework
     pipewire = {
       enable = true;
@@ -163,8 +178,8 @@
       jack.enable = true; # JACK Audio Connection Kit
     };
 
+    udisks2.enable = true; # External Storage Device Manager
     ratbagd.enable = true; # Gaming Mouse Configuration
-    printing.enable = true; # CUPS
 
     # Service Discovery
     avahi = {
@@ -173,7 +188,8 @@
       openFirewall = true; # UDP 5353
     };
 
-    gnome.gnome-keyring.enable = true; # Secret Service Provider
+    printing.enable = true; # CUPS
+    windscribe.enable = true; # Virtual Private Network
 
     # Secure Shell Server
     openssh = {
@@ -192,16 +208,33 @@
       xkb.layout = "be"; # Keyboard
     };
 
+    gnome.gnome-keyring.enable = true; # Secret Service Provider
+
     # Login Manager
     displayManager = {
       enable = true;
 
       sddm = {
         enable = true;
-        wayland.enable = true;
+
+        wayland = {
+          enable = true;
+          compositor = "kwin";
+        };
+
+        autoNumlock = true;
+
+        # Noctalia Desktop Shell
+        theme = builtins.toString (pkgs.fetchFromGitHub {
+          owner = "mahaveergurjar";
+          repo = "sddm";
+          rev = "40012eecd7f8be7ff4c3ae02241e5f58d28f82f6";
+          hash = "sha256-e/gYI6znHXxlDCOVh4p265x3kO0nQUU897hCY1yEz88=";
+        });
       };
     };
 
+    qbittorrent.enable = true; # BitTorrent Client
     flatpak.enable = true; # Sandboxed App Distribution
   };
 
@@ -212,8 +245,6 @@
       enable = true;
       defaultNetwork.settings.dns_enabled = true; # Bridge Network (UDP 53)
     };
-
-    oci-containers.backend = "podman";
   };
 
   programs = {
@@ -234,13 +265,6 @@
       package = pkgs.niri; # Override Flake
     };
 
-    # Tiling Wayland Compositor
-    sway = {
-      enable = true;
-      package = pkgs.swayfx; # Eye Candy
-      wrapperFeatures.gtk = true; # GTK Compatibility
-    };
-
     localsend.enable = true; # LAN File Sharing (TCP/UDP 53317)
   };
 
@@ -248,6 +272,7 @@
     mutableUsers = false; # Make Declarative
 
     users.lysan = {
+      description = "Lysander Fontyn";
       isNormalUser = true;
 
       # Privileges
@@ -262,7 +287,6 @@
       ];
 
       hashedPasswordFile = config.sops.secrets."passwords/users/lysan".path;
-      description = "Lysander Fontyn";
       shell = pkgs.zsh; # Z Shell
     };
   };

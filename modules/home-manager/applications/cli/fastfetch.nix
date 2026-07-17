@@ -8,5 +8,8 @@
     programs.fastfetch = {
       enable = true;
     };
+
+    programs.bash.shellAliases.ff = "fastfetch";
+    programs.zsh.shellAliases.ff = "fastfetch";
   };
 }

@@ -5,7 +5,7 @@
   };
 
   config = lib.mkIf config.modules.applications.gui.geeqie.enable {
-    home.packages = [ pkgs.geeqie ];
+    home.packages = with pkgs; [ geeqie ];
 
     xdg.mimeApps.defaultApplications = {
       "image/gif" = [ "Geeqie.desktop" ];

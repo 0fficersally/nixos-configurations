@@ -17,19 +17,17 @@
       nvidia-container-toolkit.enable = true;
     };
 
-    services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+    services.xserver.videoDrivers = [ "nvidia" "modesetting" "fbdev" ];
 
-    # Wayland Compositors
     programs = {
+      sway.extraOptions = [ "--unsupported-gpu" ];
+
       # PRIME Render Offload
       gamescope.env = {
         __GLX_VENDOR_LIBRARY_NAME = "nvidia";
         __NV_PRIME_RENDER_OFFLOAD = "1";
         __VK_LAYER_NV_optimus = "NVIDIA_only";
       };
-
-      sway.extraOptions = [ "--unsupported-gpu" ];
-      steam.gamescopeSession.env = config.programs.gamescope.env;
     };
   };
 }
