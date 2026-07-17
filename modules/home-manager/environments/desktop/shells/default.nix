@@ -1,0 +1,6 @@
+# Desktop Shells
+{ ... }: {
+  imports = [
+    ./noctalia
+  ];
+}

@@ -1,6 +1,7 @@
 # Command-Line Interface
 { ... }: {
   imports = [
+    ./asciinema.nix # Terminal Session Recorder
     ./bat.nix # File Viewer
     ./fastfetch.nix # System Information Fetcher
     ./git.nix # Version Control System

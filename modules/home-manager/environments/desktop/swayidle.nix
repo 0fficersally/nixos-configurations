@@ -5,7 +5,7 @@
   };
 
   config = lib.mkIf config.modules.environments.desktop.swayidle.enable {
-    home.packages = [ pkgs.libnotify ]; # Desktop Notification Library
+    home.packages = with pkgs; [ libnotify ]; # Desktop Notification Library
 
     nixpkgs.overlays = [ (final: prev: {
       scripts = (prev.scripts or {}) // {

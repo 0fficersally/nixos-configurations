@@ -5,7 +5,7 @@
   };
 
   config = lib.mkIf config.modules.applications.gui.cryptomator.enable {
-    home.packages = [ pkgs.cryptomator ];
+    home.packages = with pkgs; [ cryptomator ];
 
     xdg.autostart = {
       enable = true;

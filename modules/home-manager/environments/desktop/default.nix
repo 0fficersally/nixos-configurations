@@ -1,6 +1,7 @@
 { ... }: {
   imports = [
     ./compositors # Wayland Display Servers
+    ./shells # Desktop Shells
     ./wpaperd.nix # Wallpaper Daemon
     ./waybar.nix # Status Bar
     ./swayosd.nix # Hotkey Action OSD

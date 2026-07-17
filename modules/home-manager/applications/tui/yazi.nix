@@ -36,8 +36,8 @@
       flavors = let yaziFlavors = pkgs.fetchFromGitHub {
         owner = "yazi-rs";
         repo = "flavors";
-        rev = "3edeb49597e1080621a9b0b50d9f0a938b8f62bb";
-        hash = "sha256-twgXHeIj52EfpMpLrhxjYmwaPnIYah3Zk/gqCNTb2SQ=";
+        rev = "4770a3467169bfdb0a3b11601921aaf27c100630";
+        hash = "sha256-erZI0H5TxqFu2P917juL5PIB3LC0oJGKPcB1VibJDqo=";
       }; in {
         # Catppuccin
         catppuccin-latte = "${yaziFlavors}/catppuccin-latte.yazi"; # Light

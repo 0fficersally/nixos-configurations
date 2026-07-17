@@ -5,6 +5,8 @@
   };
 
   config = lib.mkIf config.modules.daemons.mpd.enable {
+    sops.secrets."api-keys/listenbrainz" = {};
+
     services = {
       mpd = {
         enable = true;
@@ -19,6 +21,8 @@
           }
         '';
       };
+
+      mpd-mpris.enable = true;
 
       listenbrainz-mpd = {
         enable = true;
@@ -40,13 +44,12 @@
 
           format = {
             display_type = "name";
-            small_image = "notes";
+            small_image = "mpd";
             small_text = "";
-            large_image = "notes";
+            large_image = "mpd";
             large_text = "";
             details = "$title";
-            state = "$artist / $album";
-            timestamp = "both";
+            state = "$artist";
           };
         };
       };

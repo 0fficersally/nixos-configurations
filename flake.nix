@@ -2,9 +2,10 @@
   description = "NixOS Configurations";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # Packages
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # Software Repository
+    nixos-hardware.url = "github:nixos/nixos-hardware/master"; # Hardware NixOS Modules
 
-    # User Environments
+    # User Environment Declaration
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,23 +23,37 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Desktop Shell (Legacy)
+    noctalia-v4 = {
+      url = "github:noctalia-dev/noctalia/legacy-v4";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Desktop Shell (Rewrite)
+    noctalia-v5 = {
+      url = "github:noctalia-dev/noctalia/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Rofi Cliphist Integration
     rofi-tools = {
       url = "github:szaffarano/rofi-tools/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Neovim Configuration
-    nixvim = {
-      url = "github:nix-community/nixvim/main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nix-flatpak.url = "github:gmodena/nix-flatpak/latest"; # Flatpak Declaration
+    nixvim.url = "github:nix-community/nixvim/main"; # Neovim Configuration
+    dolphin-overlay.url = "github:gipphe/dolphin-overlay/main"; # Repopulate Application List Outside Plasma
 
     # Visual Studio Code Extensions
     nix4vscode = {
       url = "github:nix-community/nix4vscode/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Virtual Private Network
+    windscribe = {
+      url = "github:syntheit/windscribe-nix/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -52,44 +67,56 @@
   outputs = inputs@{
     self,
     nixpkgs,
+    nixos-hardware,
     home-manager,
     sops-nix,
     niri-flake,
+    noctalia-v4,
+    noctalia-v5,
     rofi-tools,
-    nixvim,
     nix-flatpak,
+    nixvim,
+    dolphin-overlay,
     nix4vscode,
+    windscribe,
     nixos-secrets,
     ...
   }: {
     nixosConfigurations = {
-      aurora = nixpkgs.lib.nixosSystem {
+      # Framework Laptop 16
+      peridot = nixpkgs.lib.nixosSystem {
         modules = [
-          ./hosts/aurora/configuration.nix
+          nixos-hardware.nixosModules.framework-16-amd-ai-300-series
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
           niri-flake.nixosModules.niri
+          windscribe.nixosModules.windscribe
+          ./hosts/peridot/configuration.nix
 
           {
-            hardware.nvidia.prime = {
-              intelBusId = "PCI:0:2:0"; # Integrated
-              nvidiaBusId = "PCI:1:0:0"; # Discrete
+            nixpkgs.overlays = [ windscribe.overlays.default ];
+            modules.hardware.gpus.amd.enable = true;
+            boot.initrd.luks.devices.luks-68cd8be7-08ff-45ad-a888-a23dc0800fed.device = "/dev/disk/by-uuid/68cd8be7-08ff-45ad-a888-a23dc0800fed"; # Swap Encryption
+
+            fileSystems."/mnt/Games" = {
+              device = "/dev/disk/by-uuid/a592a002-3d83-44ff-a293-60884e4b2cf3";
+              fsType = "ext4";
+              options = [ "defaults" "nofail" ];
             };
 
             home-manager = {
+              useUserPackages = true;
               sharedModules = [ sops-nix.homeManagerModules.sops ];
 
               users.lysan.imports = [
-                ./hosts/aurora/home-configuration.nix
+                noctalia-v4.homeModules.default
+                noctalia-v5.homeModules.default
                 nixvim.homeModules.nixvim
                 nix-flatpak.homeManagerModules.nix-flatpak
-
-                {
-                  nixpkgs.overlays = [ nix4vscode.overlays.default ];
-                }
+                ./hosts/peridot/home-configuration.nix
               ];
 
-              extraSpecialArgs = { inherit self rofi-tools nixos-secrets; };
+              extraSpecialArgs = { inherit self rofi-tools dolphin-overlay nix4vscode nixos-secrets; };
             };
           }
         ];

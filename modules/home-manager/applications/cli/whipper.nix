@@ -5,7 +5,7 @@
   };
 
   config = lib.mkIf config.modules.applications.cli.whipper.enable {
-    home.packages = [ pkgs.whipper ];
+    home.packages = with pkgs; [ whipper ];
 
     xdg.configFile."whipper/whipper.conf".text = ''
       [main]

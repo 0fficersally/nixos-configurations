@@ -6,6 +6,6 @@ My NixOS configurations for various hosts, managed with Nix flakes and Home Mana
 
 ## Hosts
 
-### Aurora
+### Peridot
 
-### Quasar
+### Ruby
