@@ -201,7 +201,7 @@
           showHibernateOnLockScreen = false;
           enableLockScreenMediaControls = true;
           enableShadows = true;
-          enableBlurBehind = true;
+          enableBlurBehind = false;
           shadowDirection = "bottom";
           shadowOffsetX = 0;
           shadowOffsetY = 3;
