@@ -52,14 +52,6 @@
           private_browsing = true;
         };
 
-        # LanguageTool
-        "languagetool-webextension@languagetool.org" = {
-          install_url = getInstallUrl "languagetool";
-          installation_mode = "force_installed";
-          default_area = "menupanel";
-          private_browsing = false; # Proprietary
-        };
-
         # Refined GitHub
         "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}" = {
           install_url = getInstallUrl "refined-github-";
@@ -89,6 +81,14 @@
           install_url = getInstallUrl "styl-us";
           installation_mode = "force_installed";
           default_area = "menupanel";
+          private_browsing = true;
+        };
+
+        # uBlock Origin
+        "uBlock0@raymondhill.net" = {
+          install_url = getInstallUrl "ublock-origin";
+          installation_mode = "force_installed";
+          default_area = "navbar";
           private_browsing = true;
         };
 
