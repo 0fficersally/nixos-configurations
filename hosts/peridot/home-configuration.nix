@@ -90,6 +90,7 @@
         thunderbird.enable = true; # PIM Suite
         vesktop.enable = true; # Discord (Social Platform)
         vscodium.enable = true; # Integrated Development Environment
+        zed.enable = true; # Code Editor
       };
     };
 

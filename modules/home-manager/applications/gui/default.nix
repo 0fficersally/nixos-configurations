@@ -21,5 +21,6 @@
     ./thunderbird.nix # PIM Suite
     ./vesktop.nix # Discord (Social Platform)
     ./vscodium.nix # Integrated Development Environment
+    ./zed.nix # Code Editor
   ];
 }
