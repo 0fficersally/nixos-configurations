@@ -32,9 +32,23 @@
             }
 
             {
+              "Cobblemon".widget = {
+                type = "minecraft";
+                url = "udp://cobblemon.zerofisher.dev";
+              };
+            }
+
+            {
               "Musubi Retreat".widget = {
                 type = "minecraft";
                 url = "udp://musubi-retreat.zerofisher.dev";
+              };
+            }
+
+            {
+              "ᴏᴋᴛᴏʙᴇʀᴄʀᴀꜰᴛ".widget = {
+                type = "minecraft";
+                url = "udp://oktobercraft.zerofisher.dev";
               };
             }
           ];
