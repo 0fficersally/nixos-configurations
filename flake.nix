@@ -19,25 +19,13 @@
 
     # Scrollable-Tiling Wayland Compositor
     niri-flake = {
-      url = "github:sodiboo/niri-flake/main";
+      url = "github:epireyn/niri-flake/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Desktop Shell (Legacy)
-    noctalia-v4 = {
-      url = "github:noctalia-dev/noctalia/legacy-v4";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # Desktop Shell (Rewrite)
-    noctalia-v5 = {
-      url = "github:noctalia-dev/noctalia/main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # Rofi Cliphist Integration
-    rofi-tools = {
-      url = "github:szaffarano/rofi-tools/master";
+    # Wayland Compositor
+    umbriel = {
+      url = "github:noctalia-dev/umbriel/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -51,8 +39,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Web Browser (Blink Engine)
+    helium-browser-nix-flake = {
+      url = "github:schembriaiden/helium-browser-nix-flake/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Virtual Private Network
-    windscribe = {
+    windscribe-nix = {
       url = "github:syntheit/windscribe-nix/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -71,14 +65,13 @@
     home-manager,
     sops-nix,
     niri-flake,
-    noctalia-v4,
-    noctalia-v5,
-    rofi-tools,
+    umbriel,
     nix-flatpak,
     nixvim,
     dolphin-overlay,
     nix4vscode,
-    windscribe,
+    helium-browser-nix-flake,
+    windscribe-nix,
     nixos-secrets,
     ...
   }: {
@@ -90,11 +83,12 @@
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
           niri-flake.nixosModules.niri
-          windscribe.nixosModules.windscribe
+          umbriel.nixosModules.default
+          windscribe-nix.nixosModules.windscribe
+          ./hosts/peridot/hardware-configuration.nix # Hardware Scan Results
           ./hosts/peridot/configuration.nix
 
           {
-            nixpkgs.overlays = [ windscribe.overlays.default ];
             modules.hardware.gpus.amd.enable = true;
             boot.initrd.luks.devices.luks-68cd8be7-08ff-45ad-a888-a23dc0800fed.device = "/dev/disk/by-uuid/68cd8be7-08ff-45ad-a888-a23dc0800fed"; # Swap Encryption
 
@@ -109,19 +103,18 @@
               sharedModules = [ sops-nix.homeManagerModules.sops ];
 
               users.lysan.imports = [
-                noctalia-v4.homeModules.default
-                noctalia-v5.homeModules.default
+                umbriel.homeModules.default
                 nixvim.homeModules.nixvim
                 nix-flatpak.homeManagerModules.nix-flatpak
                 ./hosts/peridot/home-configuration.nix
               ];
 
-              extraSpecialArgs = { inherit self rofi-tools dolphin-overlay nix4vscode nixos-secrets; };
+              extraSpecialArgs = { inherit self dolphin-overlay nix4vscode helium-browser-nix-flake nixos-secrets; };
             };
           }
         ];
 
-        specialArgs = { inherit nixos-secrets; };
+        specialArgs = { inherit windscribe-nix nixos-secrets; };
       };
     };
   };

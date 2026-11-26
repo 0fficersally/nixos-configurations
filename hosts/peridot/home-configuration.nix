@@ -1,10 +1,10 @@
-{ config, lib, pkgs, nixos-secrets, ... }: {
+{ config, pkgs, nixos-secrets, ... }: {
   imports = [
     ../../modules/home-manager # Home Manager Modules
   ];
 
   nixpkgs.config = {
-    allowUnfreePredicate = package: builtins.elem (lib.getName package) [
+    allowUnfreePackages = [
       "obsidian"
       "osu-lazer-bin"
       "steam-unwrapped"
@@ -34,15 +34,7 @@
         starship.enable = true; # Cross-Shell Prompt
       };
 
-      desktop = {
-        compositors.niri.enable = true; # Scrollable-Tiling Wayland Compositor
-
-        # Desktop Shell
-        shells.noctalia = {
-          enable = true;
-          version = "v4"; # Legacy
-        };
-      };
+      desktop.shells.noctalia.enable = true; # Desktop Shell
     };
 
     applications = {
@@ -56,6 +48,7 @@
         openssh.enable = true; # Secure Shell Client
         rbw.enable = true; # Bitwarden (Password Manager)
         whipper.enable = true; # CD-DA Ripper
+        yt-dlp.enable = true; # Audio and Video Downloader
       };
 
       # Terminal User Interface
@@ -73,13 +66,13 @@
       gui = {
         anki.enable = true; # Flashcard Program
         bottles.enable = true; # Wine Prefix Manager
-        chromium.enable = true; # Web Browser (Blink Engine)
         cryptomator.enable = true; # Cloud Storage Encryption Program
         dbeaver.enable = true; # Database Management Tool
         dolphin.enable = true; # File Manager
         easyeffects.enable = true; # Audio Manipulation Tool
         floorp.enable = true; # Web Browser (Gecko Engine)
         geeqie.enable = true; # Image Viewer and Organiser
+        helium.enable = true; # Web Browser (Blink Engine)
         ludusavi.enable = true; # Game Save Data Backup Tool
         nextcloud.enable = true; # File Synchronisation Client
         obsidian.enable = true; # Personal Knowledge Base
@@ -89,7 +82,6 @@
         sober.enable = true; # Roblox Player (Gaming Platform)
         thunderbird.enable = true; # PIM Suite
         vesktop.enable = true; # Discord (Social Platform)
-        vscodium.enable = true; # Integrated Development Environment
         zed.enable = true; # Code Editor
       };
     };
@@ -114,7 +106,7 @@
       "ssh-keys/hosts/ruby".path = "${homeDirectory}/.ssh/id_ed25519_ruby";
 
       # API Keys
-      "api-keys/wakatime" = {};
+      "api-keys/wakatime" = { };
     };
   };
 
@@ -129,6 +121,7 @@
       _7zz # File Archiver (7-Zip)
       croc # File Sharing
       libqalculate # Multipurpose Calculator
+      tio # Serial Terminal Emulator
       yubikey-manager # Hardware Security Keys
 
       # TUI Applications
@@ -157,20 +150,22 @@
       musescore # Music Notation
       naps2 # Document Scanner
       openutau # Singing Synthesiser
-      pdfarranger # PDF Page Arranger
       piper # Gaming Mouse Configuration
       qalculate-qt # Multipurpose Calculator
       qbittorrent # BitTorrent Client
       qpwgraph # Audio Patchbay
       scrcpy # Android Remote Control
-      sidequest # Meta Quest Sideloading
       vlc # Media Player
       xournalpp # Note-Taking
       yaak # API Client
 
       # Gaming Applications
+      cemu # Wii U Emulator
+      dolphin-emu # GameCube and Wii Emulator
+      eden # Nintendo Switch Emulator
       heroic # Multiplatform Game Launcher
       itch # Indie Game Launcher
+      mgba # Game Boy Advance Emulator
       osu-lazer-bin # Rhythm Game
       tetrio-desktop # Online Stacker Game
     ];
