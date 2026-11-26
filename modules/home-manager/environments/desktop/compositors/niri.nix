@@ -21,13 +21,6 @@
       xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
       screenshot-path = "${config.xdg.userDirs.pictures}/Screenshots/Screenshot_%Y-%m-%d_%H-%M-%S.png";
 
-      layer-rules = [
-        {
-          matches = [ { namespace = "^noctalia-wallpaper*"; } ];
-          place-within-backdrop = true;
-        }
-      ];
-
       layout = {
         background-color = "transparent";
         default-column-width = { proportion = 1. / 2.; };
@@ -100,61 +93,7 @@
         numlock = true;
       };
 
-      binds = let
-        noctalia = command: [ (lib.getExe pkgs.noctalia-shell) "ipc" "call" ] ++ (lib.splitString " " command);
-        kitty = lib.getExe pkgs.kitty;
-      in with config.lib.niri.actions; {
-        # Audio Controls
-
-        "XF86AudioMute" = {
-          action.spawn = noctalia "volume muteOutput";
-          allow-when-locked = true;
-        };
-
-        "XF86AudioLowerVolume" = {
-          action.spawn = noctalia "volume decrease";
-          allow-when-locked = true;
-        };
-
-        "XF86AudioRaiseVolume" = {
-          action.spawn = noctalia "volume increase";
-          allow-when-locked = true;
-        };
-
-        "XF86AudioMicMute" = {
-          action.spawn = noctalia "volume muteInput";
-          allow-when-locked = true;
-        };
-
-        # Media Controls
-
-        "XF86AudioPrev" = {
-          action.spawn = noctalia "media previous";
-          allow-when-locked = true;
-        };
-
-        "XF86AudioPlay" = {
-          action.spawn = noctalia "media playPause";
-          allow-when-locked = true;
-        };
-
-        "XF86AudioNext" = {
-          action.spawn = noctalia "media next";
-          allow-when-locked = true;
-        };
-
-        # Screen Brightness
-
-        "XF86MonBrightnessDown" = {
-          action.spawn = noctalia "brightness decrease";
-          allow-when-locked = true;
-        };
-
-        "XF86MonBrightnessUp" = {
-          action.spawn = noctalia "brightness increase";
-          allow-when-locked = true;
-        };
-
+      binds = let kitty = lib.getExe pkgs.kitty; in with config.lib.niri.actions; {
         # Screen Capturing ([Workaround](https://github.com/sodiboo/niri-flake/issues/944))
 
         "Print".action.screenshot-screen = [ { write-to-disk = false; } ]; # Active Display -> Clipboard
@@ -168,11 +107,6 @@
         "XF86Tools".action = toggle-keyboard-shortcuts-inhibit;
 
         # Session Management
-
-        "Mod+Alt+Escape" = {
-          action.spawn = noctalia "lockScreen lock";
-          hotkey-overlay.title = "Lock Screen";
-        };
 
         "Mod+Shift+E".action = quit;
         "Mod+Shift+P".action = power-off-monitors;
@@ -333,7 +267,7 @@
           action = move-column-to-workspace-up;
           cooldown-ms = 150;
         };
-        
+
         # Per Display Column Arrangement
 
         "Mod+Shift+Ctrl+H".action = move-column-to-monitor-left;
@@ -353,33 +287,6 @@
         };
 
         "Mod+Less".action = show-hotkey-overlay;
-
-        # Toggleable Menus
-
-        "Mod+Escape" = {
-          action.spawn = noctalia "sessionMenu toggle";
-          hotkey-overlay.title = "Toggle Session Menu";
-        };
-
-        "Mod+F1" = {
-          action.spawn = noctalia "launcher clipboard";
-          hotkey-overlay.title = "Toggle Clipboard Menu";
-        };
-
-        "Mod+F2" = {
-          action.spawn = noctalia "launcher emoji";
-          hotkey-overlay.title = "Toggle Emoji Picker";
-        };
-
-        "Mod+Space" = {
-          action.spawn = noctalia "launcher toggle";
-          hotkey-overlay.title = "Toggle Launcher";
-        };
-
-        "Mod+Alt+Space" = {
-          action.spawn = noctalia "notifications toggleHistory";
-          hotkey-overlay.title = "Toggle Notification Centre";
-        };
 
         # Applications
 
@@ -430,12 +337,12 @@
 
         "Mod+Alt+B" = {
           action.spawn = lib.getExe pkgs.floorp-bin;
-          hotkey-overlay.title = "Launch Web Browser (Gecko)";
+          hotkey-overlay.title = "Launch Web Browser (Gecko Engine)";
         };
 
         "Mod+Alt+Shift+B" = {
           action.spawn = lib.getExe pkgs.ungoogled-chromium;
-          hotkey-overlay.title = "Launch Web Browser (Blink)";
+          hotkey-overlay.title = "Launch Web Browser (Blink Engine)";
         };
 
         "Mod+Alt+N" = {
@@ -447,7 +354,6 @@
       hotkey-overlay.skip-at-startup = true;
 
       spawn-at-startup = [
-        { argv = [ (lib.getExe pkgs.noctalia-shell) ]; } # Desktop Shell
         { argv = [ (lib.getExe pkgs.kitty) "--hold" (lib.getExe pkgs.fastfetch) ]; } # System Information Fetcher
       ];
     };
