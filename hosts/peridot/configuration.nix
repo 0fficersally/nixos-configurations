@@ -1,21 +1,42 @@
-{ config, lib, pkgs, nixos-secrets, ... }: {
-  imports = [
-    ./hardware-configuration.nix # Hardware Scan Results
-    ../../modules/nixos # NixOS Modules
-  ];
-
+{ config, pkgs, nixos-secrets, ... }: {
+  imports = [ ../../modules/nixos ]; # NixOS Modules
   system.stateVersion = "25.11"; # Configuration Defaults
 
-  nixpkgs.config.allowUnfreePredicate = package: builtins.elem (lib.getName package) [
+  nixpkgs.config.allowUnfreePackages = [
     "hplip"
     "steam"
     "steam-unwrapped"
   ];
 
   modules = {
+    specialisations.thomasMore.enable = true; # University of Applied Sciences
+
+    environments.desktop = {
+      displayManagers.noctaliaGreeter.enable = true; # greetd Greeter
+
+      # Wayland
+      compositors = {
+        niri.enable = true;
+        umbriel.enable = true;
+      };
+    };
+
     applications = {
-      gui.steam.enable = true; # Gaming Platform
-      web.homepage.enable = true; # Web Application Dashboard
+      cli = {
+        podman.enable = true; # Container Engine
+      };
+
+      gui = {
+        netbird.enable = true; # Mesh VPN Client
+        qbittorrent.enable = true; # BitTorrent Client
+        steam.enable = true; # Gaming Platform
+        virt-manager.enable = true; # Virtual Machine Manager
+        windscribe.enable = true; # Virtual Private Network
+      };
+
+      web = {
+        homepage.enable = true; # Web Application Dashboard
+      };
     };
   };
 
@@ -189,7 +210,6 @@
     };
 
     printing.enable = true; # CUPS
-    windscribe.enable = true; # Virtual Private Network
 
     # Secure Shell Server
     openssh = {
@@ -202,49 +222,8 @@
       };
     };
 
-    # Display Server
-    xserver = {
-      enable = true;
-      xkb.layout = "be"; # Keyboard
-    };
-
     gnome.gnome-keyring.enable = true; # Secret Service Provider
-
-    # Login Manager
-    displayManager = {
-      enable = true;
-
-      sddm = {
-        enable = true;
-
-        wayland = {
-          enable = true;
-          compositor = "kwin";
-        };
-
-        autoNumlock = true;
-
-        # Noctalia Desktop Shell
-        theme = builtins.toString (pkgs.fetchFromGitHub {
-          owner = "mahaveergurjar";
-          repo = "sddm";
-          rev = "40012eecd7f8be7ff4c3ae02241e5f58d28f82f6";
-          hash = "sha256-e/gYI6znHXxlDCOVh4p265x3kO0nQUU897hCY1yEz88=";
-        });
-      };
-    };
-
-    qbittorrent.enable = true; # BitTorrent Client
     flatpak.enable = true; # Sandboxed App Distribution
-  };
-
-  virtualisation = {
-    containers.enable = true;
-
-    podman = {
-      enable = true;
-      defaultNetwork.settings.dns_enabled = true; # Bridge Network (UDP 53)
-    };
   };
 
   programs = {
@@ -258,12 +237,6 @@
         IdentityFile ~/.ssh/id_ed25519_yubikey_github
         IdentityFile ${config.sops.secrets."ssh-keys/services/github".path}
     '';
-
-    # Scrollable-Tiling Wayland Compositor
-    niri = {
-      enable = true;
-      package = pkgs.niri; # Override Flake
-    };
 
     localsend.enable = true; # LAN File Sharing (TCP/UDP 53317)
   };
@@ -280,7 +253,6 @@
         "wheel" # Root User
         "video" # Video Devices
         "networkmanager" # Network Connections
-        "podman" # Containers
         "adbusers" # Android Debug Bridge
         "scanner" # Image Scanners
         "lp" # Printers

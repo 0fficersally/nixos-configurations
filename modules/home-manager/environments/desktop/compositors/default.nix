@@ -2,6 +2,6 @@
 { ... }: {
   imports = [
     ./niri.nix # Scrollable-Tiling Wayland Compositor
-    ./sway.nix # Tiling Wayland Compositor
+    ./umbriel.nix
   ];
 }
