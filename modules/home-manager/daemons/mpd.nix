@@ -5,7 +5,7 @@
   };
 
   config = lib.mkIf config.modules.daemons.mpd.enable {
-    sops.secrets."api-keys/listenbrainz" = {};
+    sops.secrets."api-keys/listenbrainz" = { };
 
     services = {
       mpd = {
@@ -31,26 +31,6 @@
         settings = {
           mpd.address = "/run/user/1000/mpd/socket";
           submission.token_file = config.sops.secrets."api-keys/listenbrainz".path;
-        };
-      };
-
-      mpd-discord-rpc = {
-        enable = true;
-
-        # TOML
-        settings = {
-          hosts = [ "/run/user/1000/mpd/socket" ];
-          id = "1458843884212846768";
-
-          format = {
-            display_type = "name";
-            small_image = "mpd";
-            small_text = "";
-            large_image = "mpd";
-            large_text = "";
-            details = "$title";
-            state = "$artist";
-          };
         };
       };
     };
