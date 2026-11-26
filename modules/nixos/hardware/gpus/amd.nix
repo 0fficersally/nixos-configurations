@@ -1,4 +1,4 @@
-{ config, lib, pkgs, home-manager, ... }: {
+{ config, lib, ... }: {
   options = {
     modules.hardware.gpus.amd.enable = lib.mkEnableOption "AMD GPU support";
   };
