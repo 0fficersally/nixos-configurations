@@ -1,0 +1,6 @@
+# User Sessions
+{ ... }: {
+  imports = [
+    ./desktop
+  ];
+}
