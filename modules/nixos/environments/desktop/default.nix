@@ -1,0 +1,6 @@
+{ ... }: {
+  imports = [
+    ./display-managers
+    ./compositors
+  ];
+}
