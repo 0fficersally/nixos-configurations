@@ -10,6 +10,7 @@
     ./easyeffects.nix # Audio Manipulation Tool
     ./floorp.nix # Web Browser (Gecko Engine)
     ./geeqie.nix # Image Viewer and Organiser
+    ./helium.nix # Web Browser (Blink Engine)
     ./ludusavi.nix # Game Save Data Backup Tool
     ./nemo.nix # File Manager
     ./nextcloud.nix # File Synchronisation Client
@@ -20,7 +21,7 @@
     ./sober.nix # Roblox Player (Gaming Platform)
     ./thunderbird.nix # PIM Suite
     ./vesktop.nix # Discord (Social Platform)
-    ./vscodium.nix # Integrated Development Environment
+    ./vscodium.nix # Code Editor
     ./zed.nix # Code Editor
   ];
 }
