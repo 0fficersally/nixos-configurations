@@ -12,10 +12,11 @@
 
     # Ignored Patterns
     home.file."Nextcloud/.sync-exclude.lst".text = builtins.concatStringsSep "\n" [
+      "*.aup4-*"
       "*.autosave.xopp"
-      ".next"
-      ".venv"
-      "node_modules"
+      ".next/"
+      ".venv/"
+      "node_modules/"
     ];
 
     xdg.desktopEntries.nextcloud = {
